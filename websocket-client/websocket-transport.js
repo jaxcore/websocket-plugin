@@ -109,6 +109,7 @@ class WebsocketTransport extends EventEmitter {
 			}
 			
 			if ('connected' in changes) {
+				debugger;
 				if (changes.connected) {
 					this.emit('spin-connected', spin);
 					spin.emit('connect');

@@ -85,6 +85,7 @@ class BrowserTransport extends EventEmitter {
 			// }
 			
 			if ('connected' in changes) {
+				// debugger;
 				if (changes.connected) {
 					this.emit('spin-connected', spin);
 					spin.emit('connect');
@@ -142,7 +143,6 @@ class BrowserTransport extends EventEmitter {
 		}
 		else {
 			this.log('updateSpin CREATING', id, changes);
-			// debugger;
 			return this.createSpin(id, changes);
 		}
 		
@@ -164,45 +164,45 @@ class BrowserTransport extends EventEmitter {
 		}
 	}
 	
-	update(id, changes) {
-		this.log('transport update', id, changes);
-		
-		var spin = this.WebsocketSpin.spinIds[id];
-		
-		for (let c in changes) {
-			spin.state[c] = changes[c];
-		}
-		
-		// this.log('update changed', changed);
-		
-		if ('knobPushed' in changes) {
-			spin.emit('knob', changes.knobPushed);
-		}
-		if ('buttonPushed' in changes) {
-			// this.log('emit button pushed', spin.state.id, changes.buttonPushed);
-			spin.emit('button', changes.buttonPushed);
-		}
-		if ('spinPosition' in changes) {
-			spin._lastSpinPosition = spin.state.spinPosition;
-			spin.emit('spin', spin.state.spinDirection, spin.state.spinPosition);
-		}
-		
-		if ('connected' in changes) {
-			if (changes.connected) {
-				debugger;
-				this.emit('spin-connected', spin);
-				spin.emit('connect');
-			}
-			else {
-				debugger;
-				this.emit('spin-disconnected', spin);
-				spin.emit('disconnect');
-			}
-		}
-		
-		this.log('update', changes);
-		spin.emit('update', changes);
-	}
+	// update(id, changes) {
+	// 	this.log('transport update', id, changes);
+	//
+	// 	var spin = this.WebsocketSpin.spinIds[id];
+	//
+	// 	for (let c in changes) {
+	// 		spin.state[c] = changes[c];
+	// 	}
+	//
+	// 	// this.log('update changed', changed);
+	//
+	// 	if ('knobPushed' in changes) {
+	// 		spin.emit('knob', changes.knobPushed);
+	// 	}
+	// 	if ('buttonPushed' in changes) {
+	// 		// this.log('emit button pushed', spin.state.id, changes.buttonPushed);
+	// 		spin.emit('button', changes.buttonPushed);
+	// 	}
+	// 	if ('spinPosition' in changes) {
+	// 		spin._lastSpinPosition = spin.state.spinPosition;
+	// 		spin.emit('spin', spin.state.spinDirection, spin.state.spinPosition);
+	// 	}
+	//
+	// 	if ('connected' in changes) {
+	// 		debugger;
+	// 		if (changes.connected) {
+	// 			this.emit('spin-connected', spin);
+	// 			spin.emit('connect');
+	// 		}
+	// 		else {
+	// 			debugger;
+	// 			this.emit('spin-disconnected', spin);
+	// 			spin.emit('disconnect');
+	// 		}
+	// 	}
+	//
+	// 	this.log('update', changes);
+	// 	spin.emit('update', changes);
+	// }
 	
 	sendCommand(spin, args) {
 		let id = args.shift();

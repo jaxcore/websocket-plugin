@@ -1,7 +1,8 @@
 const Jaxcore = require('jaxcore');
 const jaxcore = new Jaxcore();
 jaxcore.addPlugin(require('jaxcore-spin'));
-jaxcore.addPlugin(require('jaxcore-websocket-plugin/websocket-client'));
+// jaxcore.addPlugin(require('jaxcore-websocket-plugin/websocket-client'));
+jaxcore.addPlugin(require('../../websocket-client'));
 
 jaxcore.addAdapter('basic-spin-adapter', require('jaxcore/adapters/basic-spin-adapter'));
 

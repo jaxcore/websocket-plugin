@@ -301,12 +301,11 @@ class WebsocketSpin extends Client {
 		let spin = WebsocketSpin.spinIds[id];
 		// spin.state.connected = true;
 		// console.log('onSpinConnected', id);
-		// debugger;
 		
 		// process.exit();
 		
 		if (spin) {
-			console.log('spinMonitor emit spin-connected', id);
+			console.log('spinMonitor emit spin-connected', id, spin.state.connected);
 			// process.exit();
 			spinMonitor.emit('spin-connected', spin);
 		}

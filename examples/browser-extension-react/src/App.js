@@ -4,8 +4,11 @@ const Jaxcore = require('jaxcore');
 const jaxcore = new Jaxcore();
 global.jaxcore = jaxcore;
 
+window.isWebpage = true;
+
+jaxcore.addPlugin(require('jaxcore-websocket-plugin/websocket-client'));
 jaxcore.addPlugin(require('jaxcore-websocket-plugin/browser-service'));
-jaxcore.addAdapter('basic-spin-adapter', require('jaxcore/adapters/basic-spin-adapter'));
+// jaxcore.addAdapter('basic-spin-adapter', require('jaxcore/adapters/basic-spin-adapter'));
 
 function connectBrowser() {
 	jaxcore.connectBrowserExtension(function (err, browserAdapter) {
@@ -84,8 +87,6 @@ class App extends Component {
 		});
 		
 		jaxcore.on('device-connected', (type, device) => {
-			// todo: this is no longer working
-			debugger;
 			
 			if (type === 'websocketSpin') {
 				const spin = device;
@@ -122,7 +123,7 @@ class App extends Component {
 					});
 				});
 				
-				jaxcore.createAdapter(spin, 'basic-spin-adapter');
+				// jaxcore.createAdapter(spin, 'basic-spin-adapter');
 			}
 		});
 		
