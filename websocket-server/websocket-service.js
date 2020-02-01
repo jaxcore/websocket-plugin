@@ -1,25 +1,8 @@
-const {Service, createLogger} = require('jaxcore');
+const {Client, createLogger} = require('jaxcore');
 const http = require('http');
 const socketIO = require('socket.io');
 // const express = require('express');
 // const app = http.createServer(express());
-
-const app = http.createServer(function (req, res) {
-	// fs.readFile(__dirname + '/index.html',
-	// 	function (err, data) {
-	// 		if (err) {
-	// 			res.writeHead(500);
-	// 			return res.end('Error loading index.html');
-	// 		}
-	//
-	// 		res.writeHead(200);
-	// 		res.end(data);
-	// 	});
-	// }
-	res.writeHead(200);
-	res.write('jaxcore');
-	res.end();
-});
 
 const Spin = require('jaxcore-spin');
 
@@ -43,7 +26,7 @@ const schema = {
 
 const websocketInstances = {};
 
-class WebsocketService extends Service {
+class WebsocketService extends Client {
 	constructor(defaults, store) {
 		super(schema, store, defaults);
 		this.log = createLogger('Websocket Service');
@@ -54,16 +37,33 @@ class WebsocketService extends Service {
 	}
 	
 	connect() {
+		this.app = http.createServer(function (req, res) {
+			// fs.readFile(__dirname + '/index.html',
+			// 	function (err, data) {
+			// 		if (err) {
+			// 			res.writeHead(500);
+			// 			return res.end('Error loading index.html');
+			// 		}
+			//
+			// 		res.writeHead(200);
+			// 		res.end(data);
+			// 	});
+			// }
+			res.writeHead(200);
+			res.write('jaxcore');
+			res.end();
+		});
+		
 		const options = Object.assign({}, this.state.options);
 		
 		// this.io = socketIO(socketServer, options);
-		this.io = socketIO(app, options);
+		this.io = socketIO(this.app, options);
 		
 		this.io.on('connection', this._onConnect);
 		
 		this.log('starting on port', this.state.port, options);
 		
-		app.listen(this.state.port, this.state.host, () => {
+		this.server = this.app.listen(this.state.port, this.state.host, () => {
 			this.log('Socket server listening on : ' + this.state.port);
 			
 			this.setState({
@@ -149,6 +149,8 @@ class WebsocketService extends Service {
 	}
 	
 	destroy() {
+		this.server.close(); // todo: test
+		
 		this.emit('teardown');
 		
 	}
