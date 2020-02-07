@@ -147,7 +147,11 @@ class BrowserService extends Service {
 				}
 				else if ('contentMessage' in event.data.jaxcore) {
 					const msg = event.data.jaxcore.contentMessage;
-					if ('spinUpdate' in msg) {
+					if ('speechRecognize' in msg) {
+						//this.log('speechRecognize', msg);
+						this.emit('speech-recognize', msg.speechRecognize.text)
+					}
+					else if ('spinUpdate' in msg) {
 						this.log('spinUpdate', msg);
 						
 						const changes = msg.spinUpdate.changes;

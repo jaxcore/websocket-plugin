@@ -28,7 +28,8 @@ class App extends Component {
 			portConnected: false,
 			tabActive: false,
 			spins: [],
-			updates: []
+			updates: [],
+			spokenList: []
 		}
 	}
 	
@@ -88,7 +89,19 @@ class App extends Component {
 		
 		jaxcore.on('device-connected', (type, device) => {
 			
-			if (type === 'websocketSpin') {
+			if (type === 'speech') {
+				const speech = device;
+				
+				speech.on('recognize', (text) => {
+					// debugger;
+					const spokenList = this.state.spokenList;
+					spokenList.unshift(text);
+					if (spokenList.length > 10) spokenList.length = 10;
+					this.setState({spokenList});
+				});
+			}
+			
+			if (type === 'websocketSpin') {  // todo: change to spin/
 				const spin = device;
 				console.log('connected websocket spin', spin.id);
 				
@@ -143,6 +156,14 @@ class App extends Component {
 			<div>
 				<h4>Browser Extension:</h4>
 				{this.renderBrowserExtension()}
+				
+				<h4>Speech Recognition:</h4>
+				<ul>
+					{this.state.spokenList.map((text,index) => {
+						return (<li key={index}>{text}</li>);
+					})}
+				</ul>
+				
 				<h4>Spins Connected:</h4>
 				{this.renderSpins()}
 				<h4>Spin Updates:</h4>

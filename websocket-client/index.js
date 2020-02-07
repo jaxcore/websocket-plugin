@@ -3,6 +3,10 @@ module.exports = {
 		websocketSpin: {
 			device: require('./websocket-spin'),
 			storeType: 'client'
+		},
+		speech: {
+			device: require('./speech-device'),
+			storeType: 'service'
 		}
 	},
 	services: {

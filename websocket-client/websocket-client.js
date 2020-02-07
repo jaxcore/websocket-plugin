@@ -106,6 +106,11 @@ class WebsocketClient extends Client {
 			}
 		};
 		
+		const onSpeechRecognize = (text) => {
+			// todo: don't have a reference to speech-device, so emit and capture in jaxcore main
+			this.emit('speech-recognize', text);
+		};
+		
 		socket.once('connect', () => {
 			log('socket connect');
 			// debugger;
@@ -115,6 +120,8 @@ class WebsocketClient extends Client {
 			socket.on('spin-update', onSpinUpdate);
 			socket.on('spin-disconnect', onSpinDisconnect);
 			socket.on('spin-connect', onSpinConnect);
+			
+			socket.on('speech-recognize', onSpeechRecognize);
 			
 			this.emit('connect', socket);
 		});
@@ -128,6 +135,8 @@ class WebsocketClient extends Client {
 			socket.removeListener('spin-update', onSpinUpdate);
 			socket.removeListener('spin-disconnect', onSpinDisconnect);
 			socket.removeListener('spin-connect', onSpinConnect);
+			
+			socket.removeListener('speech-recognize', onSpeechRecognize);
 			
 			// debugger;
 			socket.destroy();
