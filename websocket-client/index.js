@@ -5,7 +5,7 @@ module.exports = {
 			storeType: 'client'
 		},
 		speech: {
-			device: require('./speech-device'),
+			device: require('./websocket-speech-device'),
 			storeType: 'service'
 		}
 	},
