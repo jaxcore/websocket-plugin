@@ -124,7 +124,8 @@ class BrowserTransport extends EventEmitter {
 				let time = spin.state.spinTime - previousSpinTime;
 				if (!isNaN(diff)) {
 					this.log('spin emit spin', diff, time);
-					spin.emit('spin', diff, time);
+					let direction = diff > 0 ? 1 : -1;
+					spin.emit('spin', diff, time, direction);
 				}
 			}
 			

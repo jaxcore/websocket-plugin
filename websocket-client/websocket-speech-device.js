@@ -38,8 +38,9 @@ class WebsocketSpeechDevice extends Service {
 		this.emit('disconnect', this);
 	}
 	
-	speechRecognize(text) {
-		this.emit('recognize', text);
+	speechRecognize(text, stats) {
+		this.log('websocket-speech-device speechRecognize', text, stats);
+		this.emit('recognize', text, stats);
 	}
 	
 	destroy() {

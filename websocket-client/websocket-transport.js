@@ -95,7 +95,8 @@ class WebsocketTransport extends EventEmitter {
 				let time = spin.state.spinTime - previousSpinTime;
 				if (!isNaN(diff)) {
 					log('emit spin', diff, time);
-					spin.emit('spin', diff, time);
+					let direction = diff > 0 ? 1 : -1;
+					spin.emit('spin', diff, time, direction);
 				}
 			}
 			
@@ -147,43 +148,45 @@ class WebsocketTransport extends EventEmitter {
 		}
 	}
 	
-	update(id, changes) {
-		log('transport update', id, changes);
-		
-		var spin = this.WebsocketSpin.spinIds[id];
-		
-		for (let c in changes) {
-			spin.state[c] = changes[c];
-		}
-		
-		// log('update changed', changed);
-		
-		if ('knobPushed' in changes) {
-			spin.emit('knob', changes.knobPushed);
-		}
-		if ('buttonPushed' in changes) {
-			// log('emit button pushed', spin.state.id, changes.buttonPushed);
-			spin.emit('button', changes.buttonPushed);
-		}
-		if ('spinPosition' in changes) {
-			spin._lastSpinPosition = spin.state.spinPosition;
-			spin.emit('spin', spin.state.spinDirection, spin.state.spinPosition);
-		}
-		
-		if ('connected' in changes) {
-			if (changes.connected) {
-				this.emit('spin-connected', spin);
-				spin.emit('connect');
-			}
-			else {
-				this.emit('spin-disconnected', spin);
-				spin.emit('disconnect');
-			}
-		}
-		
-		log('update', changes);
-		spin.emit('update', changes);
-	}
+	// update(id, changes) {
+	// 	log('transport update', id, changes);
+	// 	debugger;
+		//
+		// var spin = this.WebsocketSpin.spinIds[id];
+		//
+		// for (let c in changes) {
+		// 	spin.state[c] = changes[c];
+		// }
+		//
+		// // log('update changed', changed);
+		//
+		// if ('knobPushed' in changes) {
+		// 	spin.emit('knob', changes.knobPushed);
+		// }
+		// if ('buttonPushed' in changes) {
+		// 	// log('emit button pushed', spin.state.id, changes.buttonPushed);
+		// 	spin.emit('button', changes.buttonPushed);
+		// }
+		// if ('spinPosition' in changes) {
+		// 	spin._lastSpinPosition = spin.state.spinPosition;
+		// 	let direction = diff > 0 ? 1 : -1;
+		// 	spin.emit('spin', spin.state.spinDirection, spin.state.spinPosition);
+		// }
+		//
+		// if ('connected' in changes) {
+		// 	if (changes.connected) {
+		// 		this.emit('spin-connected', spin);
+		// 		spin.emit('connect');
+		// 	}
+		// 	else {
+		// 		this.emit('spin-disconnected', spin);
+		// 		spin.emit('disconnect');
+		// 	}
+		// }
+		//
+		// log('update', changes);
+		// spin.emit('update', changes);
+	// }
 	
 	sendCommand(spin, args) {
 		log('WebsocketTransport sendCommand', args);

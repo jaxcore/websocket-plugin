@@ -92,8 +92,9 @@ class App extends Component {
 			if (type === 'speech') {
 				const speech = device;
 				
-				speech.on('recognize', (text) => {
+				speech.on('recognize', (text, stats) => {
 					// debugger;
+					console.log('page recognize', text, stats);
 					const spokenList = this.state.spokenList;
 					spokenList.unshift(text);
 					if (spokenList.length > 10) spokenList.length = 10;

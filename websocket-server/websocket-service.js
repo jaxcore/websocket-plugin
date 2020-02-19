@@ -136,8 +136,8 @@ class WebsocketService extends Client {
 		this.io.emit('spin-disconnect', spin.id);
 	}
 	
-	speechRecognize(text) {
-		this.io.emit('speech-recognize', text);
+	speechRecognize(text, stats) {
+		this.io.emit('speech-recognize', text, stats);
 	}
 	
 	spinUpdate(spin, changes) {

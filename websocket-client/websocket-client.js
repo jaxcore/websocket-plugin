@@ -106,9 +106,9 @@ class WebsocketClient extends Client {
 			}
 		};
 		
-		const onSpeechRecognize = (text) => {
+		const onSpeechRecognize = (text, stats) => {
 			// todo: don't have a reference to speech-device, so emit and capture in jaxcore main
-			this.emit('speech-recognize', text);
+			this.emit('speech-recognize', text, stats);
 		};
 		
 		socket.once('connect', () => {
