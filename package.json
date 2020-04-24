@@ -10,8 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "bufferutil": "^4.0.1",
-    "jaxcore-spin": "0.0.4",
-    "jaxcore": "0.0.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "utf-8-validate": "^5.0.2"

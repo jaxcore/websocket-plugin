@@ -300,6 +300,7 @@ class WebsocketSpin extends Client {
 	static onSpinConnected(id) {
 		let spin = WebsocketSpin.spinIds[id];
 		// spin.state.connected = true;
+		spin.setState({connected: true});
 		// console.log('onSpinConnected', id);
 		
 		// process.exit();
