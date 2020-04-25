@@ -283,6 +283,10 @@ class WebsocketSpin extends Client {
 	setButtonHoldThreshold(th) {
 		this.setState({buttonHoldThreshold: th});
 	}
+
+	processCommand(a,b) {
+		console.log('NOT IMPLEMENTED ws spin.processCommand', a, b);
+	}
 	
 	destroy() {
 		this.disconnect();
@@ -317,7 +321,7 @@ class WebsocketSpin extends Client {
 	}
 	
 	static connect(callback) {
-		console.log('spinMonitor waiting for on spin-connected');
+		//console.log('spinMonitor waiting for on spin-connected');
 		spinMonitor.on('spin-connected', callback);
 	}
 	

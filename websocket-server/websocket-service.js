@@ -105,8 +105,15 @@ class WebsocketService extends Client {
 		
 		for (let id in this.state.connectedSpins) {
 			let spin = Spin.spinIds[id];
-			if (spin.state.connected) {
-				socket.emit('spin-update', id, spin.state);
+			if (spin) {
+				if (spin.state.connected) {
+					socket.emit('spin-update', id, spin.state);
+				}
+			}
+			else {
+				console.log('NO', id, 'not in spinIds');
+				process.exit();
+				debugger;
 			}
 		}
 		// socket.emit('connected-spins', this.state.connectedSpins);
