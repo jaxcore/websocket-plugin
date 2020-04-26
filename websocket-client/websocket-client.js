@@ -89,7 +89,7 @@ class WebsocketClient extends Client {
 		};
 		
 		const onSpinUpdate = function(id, changes) {
-			//console.log('spin-update', changes);
+			log('Websocket-client.js spin-update', changes);
 			
 			if ('connected' in changes) {
 				if (changes.connected) {

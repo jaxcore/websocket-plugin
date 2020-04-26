@@ -82,6 +82,7 @@ class WebsocketTransport extends EventEmitter {
 				log('emit button', changes.buttonPushed);
 				spin.emit('button', changes.buttonPushed);
 			}
+			
 			if ('spinPosition' in changes) {
 				let previousSpinPosition;
 				if ('previousSpinPosition' in changes) previousSpinPosition = changes.previousSpinPosition;
@@ -97,6 +98,9 @@ class WebsocketTransport extends EventEmitter {
 					log('emit spin', diff, time);
 					let direction = diff > 0 ? 1 : -1;
 					spin.emit('spin', diff, time, direction);
+				}
+				else {
+					log('ERROR: DIFF IS NAN', diff);
 				}
 			}
 			

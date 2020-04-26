@@ -22,7 +22,7 @@ class WebsocketAdapter extends Jaxcore.Adapter {
 		
 		this.addEvents(spin, {
 			update: function(changes) {
-				this.log('spin change', changes);
+				this.log('ws spin change', changes);
 				if (changes) websocketServer.spinUpdate(spin, changes);
 				else console.log('no changes??');
 			}
