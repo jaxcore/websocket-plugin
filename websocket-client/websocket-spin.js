@@ -279,9 +279,69 @@ class WebsocketSpin extends Client {
 	setKnobHoldThreshold(th) {
 		this.setState({knobHoldThreshold: th});
 	}
+
+	processKnob(pushed) {
+		var me = this;
+		var changes = {};
+		changes.knobPushed = pushed;
+		changes.knobReleased = !pushed;
+		if (pushed) {
+			changes.knobPushTime = new Date().getTime();
+			this.setState(changes);
+
+			this._bufferDiff.reset();
+
+			clearTimeout(this._knobHoldTimer);
+			this._knobHoldTimer = setTimeout(function () {
+				me.log('knobHoldThreshold exceeded');
+				me.setState({
+					knobHold: true
+				});
+				me.emit('knob-hold');
+			}, this.state.knobHoldThreshold);
+		}
+		else {
+			var wasHeld = this.state.knobHold;
+			if (wasHeld) {
+				changes.knobHold = false;
+				// this.log('knob was held, cancelling presses');
+			}
+			changes.knobReleaseTime = new Date().getTime();
+			clearTimeout(this._knobHoldTimer);
+			this.setState(changes);
+		}
+		this.emit('knob', pushed);
+	}
 	
 	setButtonHoldThreshold(th) {
 		this.setState({buttonHoldThreshold: th});
+	}
+
+	processButton(pushed) {
+		var me = this;
+		var changes = {};
+		changes.buttonPushed = pushed;
+
+		var now = new Date().getTime();
+		if (pushed) {
+			changes.buttonPushTime = now;
+			clearTimeout(this._buttonHoldTimer);
+			this._buttonHoldTimer = setTimeout(function () {
+				me.log('buttonHoldThreshold exceeded');
+				changes.buttonHold = true;
+				me.emit('button-hold');
+			}, this.state.buttonHoldThreshold);
+		}
+		else {
+			var wasHeld = this.state.buttonHold;
+			if (wasHeld) {
+				changes.buttonHold = false;
+				this.log('button was held, cancelling presses');
+			}
+			clearTimeout(this._buttonHoldTimer);
+		}
+		this.setState(changes);
+		this.emit('button', pushed);
 	}
 
 	processCommand(a,b) {

@@ -74,13 +74,15 @@ class WebsocketTransport extends EventEmitter {
 			let spin = this.WebsocketSpin.spinIds[id];
 			spin.setState(changes);
 			if ('knobPushed' in changes) {
-				log('emit knob', changes.knobPushed);
-				spin.emit('knob', changes.knobPushed);
+				// log('emit knob', changes.knobPushed);
+				// spin.emit('knob', changes.knobPushed);
+				spin.processKnob(changes.knobPushed);
 			}
 			if ('buttonPushed' in changes) {
 				// log('emit button pushed', spin.state.id, changes.buttonPushed);
-				log('emit button', changes.buttonPushed);
-				spin.emit('button', changes.buttonPushed);
+				// log('emit button', changes.buttonPushed);
+				// spin.emit('button', changes.buttonPushed);
+				spin.processButton(changes.buttonPushed);
 			}
 			
 			if ('spinPosition' in changes) {
@@ -104,14 +106,15 @@ class WebsocketTransport extends EventEmitter {
 				}
 			}
 			
-			if ('knobHold' in changes) {
-				log('emit knob', changes.knobHold);
-				spin.emit('knob-hold', changes.knobHold);
-			}
-			if ('buttonHold' in changes) {
-				log('emit button', changes.buttonHold);
-				spin.emit('button-hold', changes.buttonHold);
-			}
+			// if ('knobHold' in changes) {
+			// 	log('emit knob', changes.knobHold);
+			// 	spin.emit('knob-hold', changes.knobHold);
+			// }
+			// if ('buttonHold' in changes) {
+			// 	log('emit button', changes.buttonHold);
+			// 	process.exit();
+			// 	spin.emit('button-hold', changes.buttonHold);
+			// }
 			
 			if ('connected' in changes) {
 				debugger;
